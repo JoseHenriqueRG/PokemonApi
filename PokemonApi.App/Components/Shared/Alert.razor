@@ -1,0 +1,19 @@
+﻿@inject NotificationService NotificationService
+
+@if (!string.IsNullOrEmpty(Message))
+{
+    ShowNotification(new NotificationMessage { Severity = (IsInfo ? NotificationSeverity.Info : NotificationSeverity.Warning), 
+                    Summary = (IsInfo ? "Informação" : "Alerta"), Detail = Message, Duration = 4000 });
+}
+
+@code {
+    [Parameter]
+    public string Message { get; set; }
+    [Parameter]
+    public bool IsInfo { get; set; }
+
+    void ShowNotification(NotificationMessage message)
+    {
+        NotificationService.Notify(message);
+    }
+}

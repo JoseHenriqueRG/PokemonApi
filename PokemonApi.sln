@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Dominio", "2 - Dominio", "{4418F2BC-5749-4A8F-9454-54CA80AC79A1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonApi.Domain", "PokemonApi.Dominio\PokemonApi.Domain.csproj", "{0797BF7D-14B5-4F5B-8B3D-AC30D0407AA8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Aplicacao", "1 - Aplicacao", "{ECCCE142-9C95-4147-8C74-437FA79F2C66}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonApi.Business", "PokemonApi.Aplicacao\PokemonApi.Business.csproj", "{42333786-4371-4BA5-A7BD-392AD8534B28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Apresentacao", "0 - Apresentacao", "{3ED3DDC6-922B-42C3-A6C1-493ECD7B6D5F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonApi.App", "PokemonApi.App\PokemonApi.App.csproj", "{D9DD9014-DF3D-4443-9536-0154B5A81C0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Infra", "3 - Infra", "{7D5DD21D-7F1F-44EB-BA8E-842F7DBA6DA6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonApi.Infra", "PokemonApi.Infra\PokemonApi.Infra.csproj", "{BB42732B-FEAB-4D35-A1D4-5E3DFD1664FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0797BF7D-14B5-4F5B-8B3D-AC30D0407AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0797BF7D-14B5-4F5B-8B3D-AC30D0407AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0797BF7D-14B5-4F5B-8B3D-AC30D0407AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0797BF7D-14B5-4F5B-8B3D-AC30D0407AA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42333786-4371-4BA5-A7BD-392AD8534B28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42333786-4371-4BA5-A7BD-392AD8534B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42333786-4371-4BA5-A7BD-392AD8534B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42333786-4371-4BA5-A7BD-392AD8534B28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9DD9014-DF3D-4443-9536-0154B5A81C0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9DD9014-DF3D-4443-9536-0154B5A81C0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9DD9014-DF3D-4443-9536-0154B5A81C0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9DD9014-DF3D-4443-9536-0154B5A81C0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB42732B-FEAB-4D35-A1D4-5E3DFD1664FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB42732B-FEAB-4D35-A1D4-5E3DFD1664FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB42732B-FEAB-4D35-A1D4-5E3DFD1664FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB42732B-FEAB-4D35-A1D4-5E3DFD1664FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0797BF7D-14B5-4F5B-8B3D-AC30D0407AA8} = {4418F2BC-5749-4A8F-9454-54CA80AC79A1}
+		{42333786-4371-4BA5-A7BD-392AD8534B28} = {ECCCE142-9C95-4147-8C74-437FA79F2C66}
+		{D9DD9014-DF3D-4443-9536-0154B5A81C0A} = {3ED3DDC6-922B-42C3-A6C1-493ECD7B6D5F}
+		{BB42732B-FEAB-4D35-A1D4-5E3DFD1664FE} = {7D5DD21D-7F1F-44EB-BA8E-842F7DBA6DA6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C0B359F-C232-4E3F-BBB4-E3F3108A588A}
+	EndGlobalSection
+EndGlobal
