@@ -1,7 +1,7 @@
 using PokemonApi.App.Components;
 using PokemonApi.Business;
 using PokemonApi.Domain.Interfaces;
-using PokemonApi.Infra.ApiPoke;
+using PokemonApi.Infrastructure.ApiPoke;
 using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
-builder.Services.AddHttpClient();
 
 builder.Services.AddStackExchangeRedisCache(options =>
 {

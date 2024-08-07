@@ -1,4 +1,5 @@
-﻿using PokemonApi.Domain.Entidades;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using PokemonApi.Domain.Entidades;
 using PokemonApi.Domain.Interfaces;
 using PokemonApi.Domain.ViewModels;
 using System;
@@ -12,10 +13,14 @@ namespace PokemonApi.Infrastructure.ApiPoke
 {
     public class PokeApi : IPokeApi
     {
+
+        private readonly IDistributedCache _distributedCache;
         private readonly HttpClient _client;
 
-        public PokeApi()
+        public PokeApi(IDistributedCache distributedCache)
         {
+            _distributedCache = distributedCache;
+
             _client = new HttpClient()
             {
                 BaseAddress = new Uri("https://pokeapi.co/api/v2/")
@@ -26,12 +31,12 @@ namespace PokemonApi.Infrastructure.ApiPoke
         {
             try
             {
-                var httpResponseMessage = await _client.GetAsync($"ability/{name}");
+                var response = await _client.GetAsync($"ability/{name}");
 
-                if (httpResponseMessage.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     using var contentStream =
-                        await httpResponseMessage.Content.ReadAsStreamAsync();
+                        await response.Content.ReadAsStreamAsync();
 
                     var ability = await JsonSerializer.DeserializeAsync<Ability>(contentStream);
 
@@ -50,12 +55,12 @@ namespace PokemonApi.Infrastructure.ApiPoke
         {
             try
             {
-                var httpResponseMessage = await _client.GetAsync($"ability/{id}");
+                var response = await _client.GetAsync($"ability/{id}");
 
-                if (httpResponseMessage.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     using var contentStream =
-                        await httpResponseMessage.Content.ReadAsStreamAsync();
+                        await response.Content.ReadAsStreamAsync();
 
                     var ability = await JsonSerializer.DeserializeAsync<Ability>(contentStream);
 
@@ -74,12 +79,12 @@ namespace PokemonApi.Infrastructure.ApiPoke
         {
             try
             {
-                var httpResponseMessage = await _client.GetAsync($"pokemon/{id}");
+                var response = await _client.GetAsync($"pokemon/{id}");
 
-                if (httpResponseMessage.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     using var contentStream =
-                        await httpResponseMessage.Content.ReadAsStreamAsync();
+                        await response.Content.ReadAsStreamAsync();
 
                     var pokemon = await JsonSerializer.DeserializeAsync<Pokemon>(contentStream);
 
@@ -98,12 +103,12 @@ namespace PokemonApi.Infrastructure.ApiPoke
         {
             try
             {
-                var httpResponseMessage = await _client.GetAsync($"pokemon/{name}");
+                var response = await _client.GetAsync($"pokemon/{name}");
 
-                if (httpResponseMessage.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     using var contentStream =
-                        await httpResponseMessage.Content.ReadAsStreamAsync();
+                        await response.Content.ReadAsStreamAsync();
 
                     var pokemon = await JsonSerializer.DeserializeAsync<Pokemon>(contentStream);
 
@@ -120,20 +125,36 @@ namespace PokemonApi.Infrastructure.ApiPoke
 
         public async Task<ActionResult<Pokemon>> GetDetailsByUrl(string url)
         {
+            Pokemon pokemon;
+            string cacheKey = url;
+
+            var pokemonJson = await _distributedCache.GetStringAsync(cacheKey);
+
+            if (!string.IsNullOrWhiteSpace(pokemonJson))
+            {
+                pokemon = JsonSerializer.Deserialize<Pokemon>(pokemonJson);
+
+                return new ActionResult<Pokemon>() { IsValid = true, Message = "Pokemon carregado com sucesso.", Item = pokemon };
+            }
+
             try
             {
-                var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, url);
-                var httpResponseMessage = await _client.SendAsync(httpRequestMessage);
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                var response = await _client.SendAsync(request);
 
-                if (httpResponseMessage.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
-                    using var contentStream =
-                        await httpResponseMessage.Content.ReadAsStreamAsync();
+                    var result = await response.Content.ReadAsStringAsync();
 
-                    var contentStr =
-                        await httpResponseMessage.Content.ReadAsStringAsync();
+                    pokemon = JsonSerializer.Deserialize<Pokemon>(result);
 
-                    var pokemon = await JsonSerializer.DeserializeAsync<Pokemon>(contentStream);
+                    var memoryCacheEntryOptions = new DistributedCacheEntryOptions()
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(1),
+                        SlidingExpiration = TimeSpan.FromDays(1),
+                    };
+
+                    await _distributedCache.SetStringAsync(cacheKey, result, memoryCacheEntryOptions);
 
                     return new ActionResult<Pokemon>() { IsValid = true, Message = "Pokemon carregado com sucesso.", Item = pokemon };
                 }
@@ -150,12 +171,12 @@ namespace PokemonApi.Infrastructure.ApiPoke
         {
             try
             {
-                var httpResponseMessage = await _client.GetAsync($"pokemon?limit={limit}&offset={offset}");
+                var response = await _client.GetAsync($"pokemon?limit={limit}&offset={offset}");
 
-                if (httpResponseMessage.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     using var contentStream =
-                        await httpResponseMessage.Content.ReadAsStreamAsync();
+                        await response.Content.ReadAsStreamAsync();
 
                     var pokemons = await JsonSerializer.DeserializeAsync<PokemonList>(contentStream);
 

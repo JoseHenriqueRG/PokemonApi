@@ -13,7 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PokemonApi.Aplicacao\PokemonApi.Business.csproj" />
     <ProjectReference Include="..\PokemonApi.Dominio\PokemonApi.Domain.csproj" />
-    <ProjectReference Include="..\PokemonApi.Infra\PokemonApi.Infra.csproj" />
+    <ProjectReference Include="..\PokemonApi.Infrastructure\PokemonApi.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
